@@ -72,8 +72,7 @@ body {
     z-index: 1000;
 }
 
-.resize-handle {
-    position: absolute;
+.resize-handle {position: absolute;
     width: 10px;
     height: 10px;
     background-color: #007bff;
@@ -369,4 +368,20 @@ body {
     margin-top: 20px;
     padding-top: 10px;
     border-top: 1px solid #555;
+}
+
+/* Inline editing styles */
+[contenteditable="true"] {
+    outline: none;
+    border: 1px dashed #007bff;
+    padding: 2px;
+}
+
+[contenteditable="true"]:focus {
+    border: 1px solid #007bff;
+    background-color: rgba(0, 123, 255, 0.1);
+}
+
+.editing {
+    cursor: text;
 }
