@@ -106,6 +106,7 @@ function createElement(type) {
             element = document.createElement('button');
             element.textContent = 'Button';
             element.className = 'btn btn-primary';
+            element.addEventListener('dblclick', editText);
             break;
         case 'divider':
             element = document.createElement('hr');
@@ -128,6 +129,7 @@ function createElement(type) {
             for (let i = 1; i <= 3; i++) {
                 const li = document.createElement('li');
                 li.textContent = `List item ${i}`;
+                li.addEventListener('dblclick', editText);
                 element.appendChild(li);
             }
             break;
@@ -175,10 +177,11 @@ function createHeroSection() {
     const hero = document.createElement('div');
     hero.className = 'hero-section';
     hero.innerHTML = `
-        <h1>Welcome to Our Website</h1>
-        <p>Discover amazing features and services</p>
-        <button class="btn btn-primary">Get Started</button>
+        <h1 class="editable" data-editable="true">Welcome to Our Website</h1>
+        <p class="editable" data-editable="true">Discover amazing features and services</p>
+        <button class="btn btn-primary editable" data-editable="true">Get Started</button>
     `;
+    addEditableListeners(hero);
     return hero;
 }
 
@@ -188,20 +191,21 @@ function createFeatureGrid() {
     features.innerHTML = `
         <div class="feature">
             <i class="fas fa-rocket"></i>
-            <h3>Fast</h3>
-            <p>Lightning quick performance</p>
+            <h3 class="editable" data-editable="true">Fast</h3>
+            <p class="editable" data-editable="true">Lightning quick performance</p>
         </div>
         <div class="feature">
             <i class="fas fa-lock"></i>
-            <h3>Secure</h3>
-            <p>Your data is safe with us</p>
+            <h3 class="editable" data-editable="true">Secure</h3>
+            <p class="editable" data-editable="true">Your data is safe with us</p>
         </div>
         <div class="feature">
             <i class="fas fa-cogs"></i>
-            <h3>Customizable</h3>
-            <p>Tailor it to your needs</p>
+            <h3 class="editable" data-editable="true">Customizable</h3>
+            <p class="editable" data-editable="true">Tailor it to your needs</p>
         </div>
     `;
+    addEditableListeners(features);
     return features;
 }
 
@@ -210,14 +214,15 @@ function createTestimonials() {
     testimonials.className = 'testimonials';
     testimonials.innerHTML = `
         <div class="testimonial">
-            <p>"This product changed my life!"</p>
-            <cite>- John Doe</cite>
+            <p class="editable" data-editable="true">"This product changed my life!"</p>
+            <cite class="editable" data-editable="true">- John Doe</cite>
         </div>
         <div class="testimonial">
-            <p>"I can't imagine working without it."</p>
-            <cite>- Jane Smith</cite>
+            <p class="editable" data-editable="true">"I can't imagine working without it."</p>
+            <cite class="editable" data-editable="true">- Jane Smith</cite>
         </div>
     `;
+    addEditableListeners(testimonials);
     return testimonials;
 }
 
@@ -226,27 +231,28 @@ function createPricingTable() {
     pricing.className = 'pricing-table';
     pricing.innerHTML = `
         <div class="price-plan">
-            <h3>Basic</h3>
-            <p class="price">$9.99/mo</p>
+            <h3 class="editable" data-editable="true">Basic</h3>
+            <p class="price editable" data-editable="true">$9.99/mo</p>
             <ul>
-                <li>Feature 1</li>
-                <li>Feature 2</li>
-                <li>Feature 3</li>
+                <li class="editable" data-editable="true">Feature 1</li>
+                <li class="editable" data-editable="true">Feature 2</li>
+                <li class="editable" data-editable="true">Feature 3</li>
             </ul>
-            <button class="btn btn-primary">Choose Plan</button>
+            <button class="btn btn-primary editable" data-editable="true">Choose Plan</button>
         </div>
         <div class="price-plan">
-            <h3>Pro</h3>
-            <p class="price">$19.99/mo</p>
+            <h3 class="editable" data-editable="true">Pro</h3>
+            <p class="price editable" data-editable="true">$19.99/mo</p>
             <ul>
-                <li>Feature 1</li>
-                <li>Feature 2</li>
-                <li>Feature 3</li>
-                <li>Feature 4</li>
+                <li class="editable" data-editable="true">Feature 1</li>
+                <li class="editable" data-editable="true">Feature 2</li>
+                <li class="editable" data-editable="true">Feature 3</li>
+                <li class="editable" data-editable="true">Feature 4</li>
             </ul>
-            <button class="btn btn-primary">Choose Plan</button>
+            <button class="btn btn-primary editable" data-editable="true">Choose Plan</button>
         </div>
     `;
+    addEditableListeners(pricing);
     return pricing;
 }
 
@@ -256,15 +262,16 @@ function createTeamMembers() {
     team.innerHTML = `
         <div class="team-member">
             <img src="https://via.placeholder.com/150" alt="Team Member 1">
-            <h3>John Doe</h3>
-            <p>CEO</p>
+            <h3 class="editable" data-editable="true">John Doe</h3>
+            <p class="editable" data-editable="true">CEO</p>
         </div>
         <div class="team-member">
             <img src="https://via.placeholder.com/150" alt="Team Member 2">
-            <h3>Jane Smith</h3>
-            <p>CTO</p>
+            <h3 class="editable" data-editable="true">Jane Smith</h3>
+            <p class="editable" data-editable="true">CTO</p>
         </div>
     `;
+    addEditableListeners(team);
     return team;
 }
 
@@ -272,13 +279,14 @@ function createNewsletterSignup() {
     const newsletter = document.createElement('div');
     newsletter.className = 'newsletter-signup';
     newsletter.innerHTML = `
-        <h3>Subscribe to Our Newsletter</h3>
-        <p>Stay updated with our latest news and offers</p>
+        <h3 class="editable" data-editable="true">Subscribe to Our Newsletter</h3>
+        <p class="editable" data-editable="true">Stay updated with our latest news and offers</p>
         <form>
             <input type="email" placeholder="Enter your email">
-            <button type="submit" class="btn btn-primary">Subscribe</button>
+            <button type="submit" class="btn btn-primary editable" data-editable="true">Subscribe</button>
         </form>
     `;
+    addEditableListeners(newsletter);
     return newsletter;
 }
 
@@ -288,16 +296,16 @@ function createFooterSection() {
     footer.innerHTML = `
         <div class="footer-content">
             <div class="footer-section">
-                <h4>About Us</h4>
-                <p>We are a company dedicated to providing the best services.</p>
+                <h4 class="editable" data-editable="true">About Us</h4>
+                <p class="editable" data-editable="true">We are a company dedicated to providing the best services.</p>
             </div>
             <div class="footer-section">
-                <h4>Contact</h4>
-                <p>Email: info@example.com</p>
-                <p>Phone: (123) 456-7890</p>
+                <h4 class="editable" data-editable="true">Contact</h4>
+                <p class="editable" data-editable="true">Email: info@example.com</p>
+                <p class="editable" data-editable="true">Phone: (123) 456-7890</p>
             </div>
             <div class="footer-section">
-                <h4>Follow Us</h4>
+                <h4 class="editable" data-editable="true">Follow Us</h4>
                 <div class="social-icons">
                     <i class="fab fa-facebook"></i>
                     <i class="fab fa-twitter"></i>
@@ -306,10 +314,18 @@ function createFooterSection() {
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2023 Your Company. All rights reserved.</p>
+            <p class="editable" data-editable="true">&copy; 2023 Your Company. All rights reserved.</p>
         </div>
     `;
+    addEditableListeners(footer);
     return footer;
+}
+
+function addEditableListeners(element) {
+    const editableElements = element.querySelectorAll('[data-editable="true"]');
+    editableElements.forEach(el => {
+        el.addEventListener('dblclick', editText);
+    });
 }
 
 function addResizeHandles(element) {
@@ -366,9 +382,12 @@ function stopDragging(e) {
 }
 
 function editText(e) {
-    const text = prompt('Enter new text:', e.target.textContent);
-    if (text !== null) {
-        executeCommand(new EditTextCommand(e.target, text));
+    e.stopPropagation();
+    const element = e.target;
+    const oldText = element.textContent;
+    const newText = prompt('Enter new text:', oldText);
+    if (newText !== null && newText !== oldText) {
+        executeCommand(new EditTextCommand(element, newText));
     }
 }
 
@@ -566,7 +585,7 @@ async function saveLayout() {
     showLoading();
     const layout = Array.from(canvas.children).map(element => ({
         type: element.tagName.toLowerCase(),
-        content: element.tagName === 'P' || element.tagName === 'H2' ? element.textContent : (element.tagName === 'IMG' ? element.src : element.textContent),
+        content: element.innerHTML,
         left: element.style.left,
         top: element.style.top,
         width: element.style.width,
@@ -610,17 +629,12 @@ async function loadLayout() {
                 element.style.top = item.top;
                 element.style.width = item.width;
                 element.style.height = item.height;
-                if (item.type === 'text' || item.type === 'heading') {
-                    element.textContent = item.content;
-                } else if (item.type === 'image') {
-                    element.src = item.content;
-                } else if (item.type === 'button') {
-                    element.textContent = item.content;
-                }
+                element.innerHTML = item.content;
                 Object.assign(element.style, item.styles);
                 element.dataset.animation = item.styles.animation;
                 element.dataset.backgroundPattern = item.styles.backgroundPattern;
                 element.dataset.customCSS = item.styles.customCSS;
+                addEditableListeners(element);
                 canvas.appendChild(element);
             }
         });
