@@ -1,0 +1,16 @@
+type Result = 
+ variant {
+   err: text;
+   ok: text;
+ };
+type LayoutItem = 
+ record {
+   content: text;
+   left: text;
+   top: text;
+   "type": text;
+ };
+service : {
+  loadLayout: () -> (vec LayoutItem) query;
+  saveLayout: (vec LayoutItem) -> (Result);
+}
