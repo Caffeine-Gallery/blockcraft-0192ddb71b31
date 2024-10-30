@@ -36,10 +36,12 @@ function drop(e) {
     e.preventDefault();
     const type = e.dataTransfer.getData('text');
     const element = createElement(type);
-    element.style.position = 'absolute';
-    element.style.left = `${e.clientX - canvas.offsetLeft}px`;
-    element.style.top = `${e.clientY - canvas.offsetTop}px`;
-    canvas.appendChild(element);
+    if (element) {
+        element.style.position = 'absolute';
+        element.style.left = `${e.clientX - canvas.offsetLeft}px`;
+        element.style.top = `${e.clientY - canvas.offsetTop}px`;
+        canvas.appendChild(element);
+    }
 }
 
 function createElement(type) {
@@ -60,18 +62,25 @@ function createElement(type) {
             element.textContent = 'Button';
             element.className = 'btn btn-primary';
             break;
+        default:
+            console.error('Unknown element type:', type);
+            return null;
     }
-    element.className += ' draggable-element';
-    element.draggable = true;
-    element.addEventListener('dragstart', dragElement);
+    if (element) {
+        element.className = (element.className || '') + ' draggable-element';
+        element.draggable = true;
+        element.addEventListener('dragstart', dragElement);
+    }
     return element;
 }
 
 function dragElement(e) {
-    const rect = e.target.getBoundingClientRect();
-    const offsetX = e.clientX - rect.left;
-    const offsetY = e.clientY - rect.top;
-    e.dataTransfer.setData('text/plain', JSON.stringify({ offsetX, offsetY }));
+    if (e.target) {
+        const rect = e.target.getBoundingClientRect();
+        const offsetX = e.clientX - rect.left;
+        const offsetY = e.clientY - rect.top;
+        e.dataTransfer.setData('text/plain', JSON.stringify({ offsetX, offsetY }));
+    }
 }
 
 function editText(e) {
@@ -108,17 +117,19 @@ async function loadLayout() {
         canvas.innerHTML = '';
         layout.forEach(item => {
             const element = createElement(item.type);
-            element.style.position = 'absolute';
-            element.style.left = item.left;
-            element.style.top = item.top;
-            if (item.type === 'text') {
-                element.textContent = item.content;
-            } else if (item.type === 'image') {
-                element.src = item.content;
-            } else if (item.type === 'button') {
-                element.textContent = item.content;
+            if (element) {
+                element.style.position = 'absolute';
+                element.style.left = item.left;
+                element.style.top = item.top;
+                if (item.type === 'text') {
+                    element.textContent = item.content;
+                } else if (item.type === 'image') {
+                    element.src = item.content;
+                } else if (item.type === 'button') {
+                    element.textContent = item.content;
+                }
+                canvas.appendChild(element);
             }
-            canvas.appendChild(element);
         });
         alert('Layout loaded successfully!');
     } catch (error) {
@@ -130,9 +141,13 @@ async function loadLayout() {
 }
 
 function showLoading() {
-    loadingSpinner.classList.remove('d-none');
+    if (loadingSpinner) {
+        loadingSpinner.classList.remove('d-none');
+    }
 }
 
 function hideLoading() {
-    loadingSpinner.classList.add('d-none');
+    if (loadingSpinner) {
+        loadingSpinner.classList.add('d-none');
+    }
 }
