@@ -14,6 +14,8 @@ let selectedElement = null;
 let draggedElement = null;
 let commandHistory = [];
 let commandIndex = -1;
+let isDragging = false;
+let startX, startY;
 
 document.addEventListener('DOMContentLoaded', () => {
     canvas = document.getElementById('canvas');
@@ -34,8 +36,8 @@ document.addEventListener('DOMContentLoaded', () => {
     canvas.addEventListener('dragover', dragOver);
     canvas.addEventListener('drop', drop);
     canvas.addEventListener('mousedown', startDragging);
-    canvas.addEventListener('mousemove', drag);
-    canvas.addEventListener('mouseup', stopDragging);
+    document.addEventListener('mousemove', drag);
+    document.addEventListener('mouseup', stopDragging);
     canvas.addEventListener('click', selectElement);
 
     saveBtn.addEventListener('click', saveLayout);
@@ -162,7 +164,7 @@ function createElement(type) {
     if (element) {
         element.className = (element.className || '') + ' draggable-element';
         element.draggable = true;
-        element.addEventListener('dragstart', dragElement);
+        element.addEventListener('mousedown', startDragging);
         addResizeHandles(element);
         addDeleteButton(element);
     }
@@ -331,45 +333,42 @@ function addDeleteButton(element) {
     element.appendChild(deleteBtn);
 }
 
-function dragElement(e) {
-    e.dataTransfer.setData('text/plain', 'move');
-    const rect = e.target.getBoundingClientRect();
-    const offsetX = e.clientX - rect.left;
-    const offsetY = e.clientY - rect.top;
-    e.target.dataset.offsetX = offsetX;
-    e.target.dataset.offsetY = offsetY;
+function startDragging(e) {
+    if (e.target.classList.contains('draggable-element')) {
+        isDragging = true;
+        draggedElement = e.target;
+        startX = e.clientX - draggedElement.offsetLeft;
+        startY = e.clientY - draggedElement.offsetTop;
+        draggedElement.style.zIndex = '1000';
+    }
+}
+
+function drag(e) {
+    if (!isDragging) return;
+    e.preventDefault();
+    requestAnimationFrame(() => {
+        const x = e.clientX - startX;
+        const y = e.clientY - startY;
+        draggedElement.style.left = `${x}px`;
+        draggedElement.style.top = `${y}px`;
+    });
+}
+
+function stopDragging(e) {
+    if (isDragging) {
+        isDragging = false;
+        draggedElement.style.zIndex = '';
+        const newLeft = parseInt(draggedElement.style.left);
+        const newTop = parseInt(draggedElement.style.top);
+        executeCommand(new MoveCommand(draggedElement, newLeft, newTop));
+        draggedElement = null;
+    }
 }
 
 function editText(e) {
     const text = prompt('Enter new text:', e.target.textContent);
     if (text !== null) {
         executeCommand(new EditTextCommand(e.target, text));
-    }
-}
-
-function startDragging(e) {
-    if (e.target.classList.contains('draggable-element')) {
-        draggedElement = e.target;
-        const rect = draggedElement.getBoundingClientRect();
-        draggedElement.dataset.offsetX = e.clientX - rect.left;
-        draggedElement.dataset.offsetY = e.clientY - rect.top;
-        draggedElement.style.zIndex = 1000;
-    }
-}
-
-function drag(e) {
-    if (draggedElement) {
-        const offsetX = parseInt(draggedElement.dataset.offsetX);
-        const offsetY = parseInt(draggedElement.dataset.offsetY);
-        draggedElement.style.left = `${e.clientX - canvas.offsetLeft - offsetX}px`;
-        draggedElement.style.top = `${e.clientY - canvas.offsetTop - offsetY}px`;
-    }
-}
-
-function stopDragging() {
-    if (draggedElement) {
-        draggedElement.style.zIndex = '';
-        draggedElement = null;
     }
 }
 
