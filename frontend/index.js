@@ -7,6 +7,7 @@ let loadBtn;
 let undoBtn;
 let redoBtn;
 let previewBtn;
+let newProjectBtn;
 let loadingSpinner;
 let stylePanel;
 let mobilePreview;
@@ -26,6 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
     undoBtn = document.getElementById('undoBtn');
     redoBtn = document.getElementById('redoBtn');
     previewBtn = document.getElementById('previewBtn');
+    newProjectBtn = document.getElementById('newProjectBtn');
     loadingSpinner = document.getElementById('loadingSpinner');
     stylePanel = document.getElementById('stylePanel');
     mobilePreview = document.getElementById('mobilePreview');
@@ -49,6 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
     undoBtn.addEventListener('click', undo);
     redoBtn.addEventListener('click', redo);
     previewBtn.addEventListener('click', showMobilePreview);
+    newProjectBtn.addEventListener('click', showTemplateSelection);
 
     document.getElementById('applyStyles').addEventListener('click', applyStyles);
     document.getElementById('closeMobilePreview').addEventListener('click', closeMobilePreview);
@@ -57,8 +60,17 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('fontSize').addEventListener('input', updateFontSizeValue);
     document.getElementById('borderWidth').addEventListener('input', updateBorderWidthValue);
     document.getElementById('borderRadius').addEventListener('input', updateBorderRadiusValue);
+    document.getElementById('padding').addEventListener('input', updatePaddingValue);
+    document.getElementById('margin').addEventListener('input', updateMarginValue);
+    document.getElementById('opacity').addEventListener('input', updateOpacityValue);
     document.getElementById('customCSS').addEventListener('input', applyCustomCSS);
     document.getElementById('typographyPreset').addEventListener('change', applyTypographyPreset);
+
+    // Initialize tooltips
+    const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
 });
 
 function initializeTemplateSelection() {
@@ -188,6 +200,45 @@ function createElement(type) {
             element.type = 'text';
             element.placeholder = 'Enter text here';
             break;
+        case 'video':
+            element = document.createElement('video');
+            element.src = 'https://www.w3schools.com/html/mov_bbb.mp4';
+            element.controls = true;
+            element.style.width = '320px';
+            element.style.height = '240px';
+            break;
+        case 'map':
+            element = document.createElement('iframe');
+            element.src = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.1422937950147!2d-73.98731968482413!3d40.75889497932681!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c25855c6480299%3A0x55194ec5a1ae072e!2sTimes+Square!5e0!3m2!1sen!2sus!4v1510579767645';
+            element.width = '400';
+            element.height = '300';
+            element.style.border = '0';
+            element.allowFullscreen = true;
+            break;
+        case 'carousel':
+            element = createCarousel();
+            break;
+        case 'accordion':
+            element = createAccordion();
+            break;
+        case 'tabs':
+            element = createTabs();
+            break;
+        case 'modal':
+            element = createModal();
+            break;
+        case 'form':
+            element = createForm();
+            break;
+        case 'gallery':
+            element = createGallery();
+            break;
+        case 'countdown':
+            element = createCountdown();
+            break;
+        case 'social':
+            element = createSocialMedia();
+            break;
         case 'hero':
             element = createHeroSection();
             break;
@@ -208,6 +259,12 @@ function createElement(type) {
             break;
         case 'footer':
             element = createFooterSection();
+            break;
+        case 'contact':
+            element = createContactForm();
+            break;
+        case 'faq':
+            element = createFAQSection();
             break;
         default:
             console.error('Unknown element type:', type);
@@ -419,6 +476,279 @@ function createProductGrid() {
     return productGrid;
 }
 
+function createCarousel() {
+    const carousel = document.createElement('div');
+    carousel.className = 'carousel slide';
+    carousel.setAttribute('data-bs-ride', 'carousel');
+    carousel.innerHTML = `
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="https://via.placeholder.com/800x400?text=Slide+1" class="d-block w-100" alt="Slide 1">
+            </div>
+            <div class="carousel-item">
+                <img src="https://via.placeholder.com/800x400?text=Slide+2" class="d-block w-100" alt="Slide 2">
+            </div>
+            <div class="carousel-item">
+                <img src="https://via.placeholder.com/800x400?text=Slide+3" class="d-block w-100" alt="Slide 3">
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    `;
+    return carousel;
+}
+
+function createAccordion() {
+    const accordion = document.createElement('div');
+    accordion.className = 'accordion';
+    accordion.innerHTML = `
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
+                    Accordion Item #1
+                </button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse collapse show">
+                <div class="accordion-body">
+                    This is the first item's accordion body.
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo">
+                    Accordion Item #2
+                </button>
+            </h2>
+            <div id="collapseTwo" class="accordion-collapse collapse">
+                <div class="accordion-body">
+                    This is the second item's accordion body.
+                </div>
+            </div>
+        </div>
+    `;
+    makeAllChildrenEditable(accordion);
+    return accordion;
+}
+
+function createTabs() {
+    const tabs = document.createElement('div');
+    tabs.innerHTML = `
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab">Home</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab">Profile</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab">Contact</button>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane fade show active" id="home" role="tabpanel">Home content</div>
+            <div class="tab-pane fade" id="profile" role="tabpanel">Profile content</div>
+            <div class="tab-pane fade" id="contact" role="tabpanel">Contact content</div>
+        </div>
+    `;
+    makeAllChildrenEditable(tabs);
+    return tabs;
+}
+
+function createModal() {
+    const modalTrigger = document.createElement('button');
+    modalTrigger.className = 'btn btn-primary';
+    modalTrigger.setAttribute('data-bs-toggle', 'modal');
+    modalTrigger.setAttribute('data-bs-target', '#exampleModal');
+    modalTrigger.textContent = 'Launch Modal';
+
+    const modal = document.createElement('div');
+    modal.className = 'modal fade';
+    modal.id = 'exampleModal';
+    modal.innerHTML = `
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Modal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Modal body text goes here.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    `;
+
+    const container = document.createElement('div');
+    container.appendChild(modalTrigger);
+    container.appendChild(modal);
+    makeAllChildrenEditable(container);
+    return container;
+}
+
+function createForm() {
+    const form = document.createElement('form');
+    form.innerHTML = `
+        <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Email address</label>
+            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+        </div>
+        <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">Password</label>
+            <input type="password" class="form-control" id="exampleInputPassword1">
+        </div>
+        <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="exampleCheck1">
+            <label class="form-check-label" for="exampleCheck1">Check me out</label>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    `;
+    makeAllChildrenEditable(form);
+    return form;
+}
+
+function createGallery() {
+    const gallery = document.createElement('div');
+    gallery.className = 'row';
+    for (let i = 1; i <= 6; i++) {
+        gallery.innerHTML += `
+            <div class="col-md-4 mb-4">
+                <img src="https://via.placeholder.com/300x200?text=Image+${i}" class="img-fluid" alt="Gallery Image ${i}">
+            </div>
+        `;
+    }
+    return gallery;
+}
+
+function createCountdown() {
+    const countdown = document.createElement('div');
+    countdown.className = 'countdown';
+    countdown.innerHTML = `
+        <h3>Countdown to Launch</h3>
+        <div id="countdown-timer">
+            <span id="days"></span> days
+            <span id="hours"></span> hours
+            <span id="minutes"></span> minutes
+            <span id="seconds"></span> seconds
+        </div>
+    `;
+    makeAllChildrenEditable(countdown);
+
+    // Set the date we're counting down to
+    const countDownDate = new Date("Jan 1, 2024 00:00:00").getTime();
+
+    // Update the countdown every 1 second
+    const x = setInterval(function() {
+        const now = new Date().getTime();
+        const distance = countDownDate - now;
+
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        countdown.querySelector("#days").textContent = days;
+        countdown.querySelector("#hours").textContent = hours;
+        countdown.querySelector("#minutes").textContent = minutes;
+        countdown.querySelector("#seconds").textContent = seconds;
+
+        if (distance < 0) {
+            clearInterval(x);
+            countdown.querySelector("#countdown-timer").textContent = "EXPIRED";
+        }
+    }, 1000);
+
+    return countdown;
+}
+
+function createSocialMedia() {
+    const socialMedia = document.createElement('div');
+    socialMedia.className = 'social-media';
+    socialMedia.innerHTML = `
+        <h3>Follow Us</h3>
+        <div class="social-icons">
+            <a href="#" class="social-icon"><i class="fab fa-facebook"></i></a>
+            <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="social-icon"><i class="fab fa-linkedin"></i></a>
+        </div>
+    `;
+    makeAllChildrenEditable(socialMedia);
+    return socialMedia;
+}
+
+function createContactForm() {
+    const contactForm = document.createElement('div');
+    contactForm.className = 'contact-form';
+    contactForm.innerHTML = `
+        <h3>Contact Us</h3>
+        <form>
+            <div class="mb-3">
+                <label for="name" class="form-label">Name</label>
+                <input type="text" class="form-control" id="name" required>
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" required>
+            </div>
+            <div class="mb-3">
+                <label for="message" class="form-label">Message</label>
+                <textarea class="form-control" id="message" rows="3" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Send Message</button>
+        </form>
+    `;
+    makeAllChildrenEditable(contactForm);
+    return contactForm;
+}
+
+function createFAQSection() {
+    const faqSection = document.createElement('div');
+    faqSection.className = 'faq-section';
+    faqSection.innerHTML = `
+        <h3>Frequently Asked Questions</h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faqOne">
+                        What is your return policy?
+                    </button>
+                </h2>
+                <div id="faqOne" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Our return policy allows returns within 30 days of purchase for a full refund.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqTwo">
+                        How long does shipping take?
+                    </button>
+                </h2>
+                <div id="faqTwo" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Shipping typically takes 3-5 business days for domestic orders and 7-14 days for international orders.
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+    makeAllChildrenEditable(faqSection);
+    return faqSection;
+}
+
 function makeEditable(element) {
     element.contentEditable = true;
     element.addEventListener('focus', startEditing);
@@ -427,7 +757,7 @@ function makeEditable(element) {
 }
 
 function makeAllChildrenEditable(parentElement) {
-    const textElements = parentElement.querySelectorAll('h1, h2, h3, h4, h5, h6, p, li, cite, button');
+    const textElements = parentElement.querySelectorAll('h1, h2, h3, h4, h5, h6, p, li, cite, button, label, span');
     textElements.forEach(makeEditable);
 }
 
@@ -576,13 +906,21 @@ function updateStylePanel() {
         document.getElementById('backgroundColor').value = rgb2hex(selectedElement.style.backgroundColor);
         document.getElementById('fontSize').value = parseInt(selectedElement.style.fontSize) || 16;
         document.getElementById('fontSizeValue').textContent = `${document.getElementById('fontSize').value}px`;
+        document.getElementById('fontFamily').value = selectedElement.style.fontFamily || 'Arial, sans-serif';
+        document.getElementById('textAlign').value = selectedElement.style.textAlign || 'left';
         document.getElementById('borderStyle').value = selectedElement.style.borderStyle || 'none';
         document.getElementById('borderWidth').value = parseInt(selectedElement.style.borderWidth) || 0;
         document.getElementById('borderWidthValue').textContent = `${document.getElementById('borderWidth').value}px`;
         document.getElementById('borderColor').value = rgb2hex(selectedElement.style.borderColor);
-        document.getElementById('borderRadius').value= parseInt(selectedElement.style.borderRadius) || 0;
+        document.getElementById('borderRadius').value = parseInt(selectedElement.style.borderRadius) || 0;
         document.getElementById('borderRadiusValue').textContent = `${document.getElementById('borderRadius').value}px`;
+        document.getElementById('padding').value = parseInt(selectedElement.style.padding) || 0;
+        document.getElementById('paddingValue').textContent = `${document.getElementById('padding').value}px`;
+        document.getElementById('margin').value = parseInt(selectedElement.style.margin) || 0;
+        document.getElementById('marginValue').textContent = `${document.getElementById('margin').value}px`;
         document.getElementById('boxShadow').checked = selectedElement.style.boxShadow !== 'none' && selectedElement.style.boxShadow !== '';
+        document.getElementById('opacity').value = selectedElement.style.opacity || 1;
+        document.getElementById('opacityValue').textContent = document.getElementById('opacity').value;
         document.getElementById('animation').value = selectedElement.dataset.animation || 'none';
         document.getElementById('backgroundPattern').value = selectedElement.dataset.backgroundPattern || 'none';
         document.getElementById('customCSS').value = selectedElement.dataset.customCSS || '';
@@ -594,11 +932,16 @@ function applyStyles() {
         const fontColor = document.getElementById('fontColor').value;
         const backgroundColor = document.getElementById('backgroundColor').value;
         const fontSize = document.getElementById('fontSize').value;
+        const fontFamily = document.getElementById('fontFamily').value;
+        const textAlign = document.getElementById('textAlign').value;
         const borderStyle = document.getElementById('borderStyle').value;
         const borderWidth = document.getElementById('borderWidth').value;
         const borderColor = document.getElementById('borderColor').value;
         const borderRadius = document.getElementById('borderRadius').value;
+        const padding = document.getElementById('padding').value;
+        const margin = document.getElementById('margin').value;
         const boxShadow = document.getElementById('boxShadow').checked ? '0 0 10px rgba(0,0,0,0.5)' : 'none';
+        const opacity = document.getElementById('opacity').value;
         const animation = document.getElementById('animation').value;
         const backgroundPattern = document.getElementById('backgroundPattern').value;
 
@@ -606,11 +949,16 @@ function applyStyles() {
             color: fontColor,
             backgroundColor,
             fontSize: `${fontSize}px`,
+            fontFamily,
+            textAlign,
             borderStyle,
             borderWidth: `${borderWidth}px`,
             borderColor,
             borderRadius: `${borderRadius}px`,
+            padding: `${padding}px`,
+            margin: `${margin}px`,
             boxShadow,
+            opacity,
             animation,
             backgroundPattern
         }));
@@ -676,6 +1024,18 @@ function updateBorderRadiusValue() {
     document.getElementById('borderRadiusValue').textContent = `${document.getElementById('borderRadius').value}px`;
 }
 
+function updatePaddingValue() {
+    document.getElementById('paddingValue').textContent = `${document.getElementById('padding').value}px`;
+}
+
+function updateMarginValue() {
+    document.getElementById('marginValue').textContent = `${document.getElementById('margin').value}px`;
+}
+
+function updateOpacityValue() {
+    document.getElementById('opacityValue').textContent = document.getElementById('opacity').value;
+}
+
 function rgb2hex(rgb) {
     if (rgb.startsWith('#')) return rgb;
     rgb = rgb.match(/^rgba?[\s+]?\([\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?/i);
@@ -695,6 +1055,11 @@ function closeMobilePreview() {
     mobilePreview.style.display = 'none';
 }
 
+function showTemplateSelection() {
+    templateSelection.style.display = 'flex';
+    canvas.style.display = 'none';
+}
+
 async function saveLayout() {
     showLoading();
     const layout = Array.from(canvas.children).map(element => ({
@@ -708,11 +1073,16 @@ async function saveLayout() {
             color: element.style.color,
             backgroundColor: element.style.backgroundColor,
             fontSize: element.style.fontSize,
+            fontFamily: element.style.fontFamily,
+            textAlign: element.style.textAlign,
             borderStyle: element.style.borderStyle,
             borderWidth: element.style.borderWidth,
             borderColor: element.style.borderColor,
             borderRadius: element.style.borderRadius,
+            padding: element.style.padding,
+            margin: element.style.margin,
             boxShadow: element.style.boxShadow,
+            opacity: element.style.opacity,
             animation: element.dataset.animation,
             backgroundPattern: element.dataset.backgroundPattern,
             customCSS: element.dataset.customCSS
@@ -721,10 +1091,10 @@ async function saveLayout() {
 
     try {
         await backend.saveLayout(layout);
-        alert('Layout saved successfully!');
+        showToast('Success', 'Layout saved successfully!');
     } catch (error) {
         console.error('Error saving layout:', error);
-        alert('Failed to save layout. Please try again.');
+        showToast('Error', 'Failed to save layout. Please try again.');
     } finally {
         hideLoading();
     }
@@ -752,10 +1122,10 @@ async function loadLayout() {
                 canvas.appendChild(element);
             }
         });
-        alert('Layout loaded successfully!');
+        showToast('Success', 'Layout loaded successfully!');
     } catch (error) {
         console.error('Error loading layout:', error);
-        alert('Failed to load layout. Please try again.');
+        showToast('Error', 'Failed to load layout. Please try again.');
     } finally {
         hideLoading();
     }
@@ -773,9 +1143,15 @@ function hideLoading() {
     }
 }
 
+function showToast(title, message) {
+    const toast = new bootstrap.Toast(document.getElementById('toast'));
+    document.getElementById('toastTitle').textContent = title;
+    document.getElementById('toastMessage').textContent = message;
+    toast.show();
+}
+
 // Command pattern for undo/redo
-class Command {
-    execute() {}
+class Command {execute() {}
     undo() {}
 }
 
