@@ -3,51 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Advanced Website Builder</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Website Builder</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="index.css">
 </head>
 <body>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-3 sidebar">
-                <h3>Elements</h3>
+            <div class="col-md-3 sidebar">
+                <h3>Components</h3>
                 <div class="component-list">
-                    <div class="draggable" draggable="true" data-type="text"><i class="fas fa-font"></i> Text</div>
-                    <div class="draggable" draggable="true" data-type="image"><i class="fas fa-image"></i> Image</div>
-                    <div class="draggable" draggable="true" data-type="button"><i class="fas fa-square"></i> Button</div>
-                    <div class="draggable" draggable="true" data-type="divider"><i class="fas fa-minus"></i> Divider</div>
-                    <div class="draggable" draggable="true" data-type="heading"><i class="fas fa-heading"></i> Heading</div>
-                    <div class="draggable" draggable="true" data-type="container"><i class="fas fa-box"></i> Container</div>
-                    <div class="draggable" draggable="true" data-type="list"><i class="fas fa-list"></i> List</div>
-                    <div class="draggable" draggable="true" data-type="input"><i class="fas fa-input-text"></i> Input</div>
+                    <div class="draggable" draggable="true" data-type="text">Text</div>
+                    <div class="draggable" draggable="true" data-type="image">Image</div>
+                    <div class="draggable" draggable="true" data-type="button">Button</div>
+                    <div class="draggable" draggable="true" data-type="divider">Divider</div>
+                    <div class="draggable" draggable="true" data-type="heading">Heading</div>
+                    <div class="draggable" draggable="true" data-type="container">Container</div>
+                    <div class="draggable" draggable="true" data-type="list">List</div>
+                    <div class="draggable" draggable="true" data-type="input">Input</div>
                 </div>
-                <h3 class="mt-4">Templates</h3>
+                <h3>Templates</h3>
                 <div class="template-list">
-                    <div class="draggable" draggable="true" data-type="hero"><i class="fas fa-jedi"></i> Hero Section</div>
-                    <div class="draggable" draggable="true" data-type="features"><i class="fas fa-th-large"></i> Feature Grid</div>
-                    <div class="draggable" draggable="true" data-type="testimonials"><i class="fas fa-quote-right"></i> Testimonials</div>
-                    <div class="draggable" draggable="true" data-type="pricing"><i class="fas fa-dollar-sign"></i> Pricing Table</div>
-                    <div class="draggable" draggable="true" data-type="team"><i class="fas fa-users"></i> Team Members</div>
-                    <div class="draggable" draggable="true" data-type="newsletter"><i class="fas fa-envelope"></i> Newsletter Signup</div>
-                    <div class="draggable" draggable="true" data-type="footer"><i class="fas fa-shoe-prints"></i> Footer Section</div>
+                    <div class="draggable" draggable="true" data-type="hero">Hero Section</div>
+                    <div class="draggable" draggable="true" data-type="features">Feature Grid</div>
+                    <div class="draggable" draggable="true" data-type="testimonials">Testimonials</div>
+                    <div class="draggable" draggable="true" data-type="pricing">Pricing Table</div>
+                    <div class="draggable" draggable="true" data-type="team">Team Members</div>
+                    <div class="draggable" draggable="true" data-type="newsletter">Newsletter Signup</div>
+                    <div class="draggable" draggable="true" data-type="footer">Footer</div>
                 </div>
             </div>
-            <div class="col-9">
+            <div class="col-md-9">
+                <div id="templateSelection" class="template-selection">
+                    <h2>Choose a Template</h2>
+                    <div class="template-grid">
+                        <div class="template-item" data-template="business">
+                            <img src="https://via.placeholder.com/150x100?text=Business" alt="Business Template">
+                            <p>Business</p>
+                        </div>
+                        <div class="template-item" data-template="portfolio">
+                            <img src="https://via.placeholder.com/150x100?text=Portfolio" alt="Portfolio Template">
+                            <p>Portfolio</p>
+                        </div>
+                        <div class="template-item" data-template="blog">
+                            <img src="https://via.placeholder.com/150x100?text=Blog" alt="Blog Template">
+                            <p>Blog</p>
+                        </div>
+                        <div class="template-item" data-template="ecommerce">
+                            <img src="https://via.placeholder.com/150x100?text=E-commerce" alt="E-commerce Template">
+                            <p>E-commerce</p>
+                        </div>
+                    </div>
+                </div>
                 <div id="canvas" class="canvas"></div>
             </div>
         </div>
     </div>
     <div class="controls">
-        <button id="undoBtn" class="btn btn-secondary"><i class="fas fa-undo"></i> Undo</button>
-        <button id="redoBtn" class="btn btn-secondary"><i class="fas fa-redo"></i> Redo</button>
-        <button id="saveBtn" class="btn btn-primary"><i class="fas fa-save"></i> Save Layout</button>
-        <button id="loadBtn" class="btn btn-secondary"><i class="fas fa-folder-open"></i> Load Layout</button>
-        <button id="previewBtn" class="btn btn-info"><i class="fas fa-mobile-alt"></i> Mobile Preview</button>
+        <button id="saveBtn" class="btn btn-primary">Save</button>
+        <button id="loadBtn" class="btn btn-secondary">Load</button>
+        <button id="undoBtn" class="btn btn-info">Undo</button>
+        <button id="redoBtn" class="btn btn-info">Redo</button>
+        <button id="previewBtn" class="btn btn-success">Preview</button>
     </div>
     <div id="stylePanel" class="style-panel">
-        <h4>Style Customization</h4>
+        <h4>Style Options</h4>
         <div class="style-group">
             <label for="fontColor">Font Color:</label>
             <input type="color" id="fontColor">
@@ -72,8 +93,8 @@
         </div>
         <div class="style-group">
             <label for="borderWidth">Border Width:</label>
-            <input type="range" id="borderWidth" min="0" max="10" value="1">
-            <span id="borderWidthValue">1px</span>
+            <input type="range" id="borderWidth" min="0" max="10" value="0">
+            <span id="borderWidthValue">0px</span>
         </div>
         <div class="style-group">
             <label for="borderColor">Border Color:</label>
@@ -92,8 +113,8 @@
             <label for="animation">Animation:</label>
             <select id="animation">
                 <option value="none">None</option>
-                <option value="fade">Fade</option>
-                <option value="slide">Slide</option>
+                <option value="fade-in">Fade In</option>
+                <option value="slide-in">Slide In</option>
                 <option value="bounce">Bounce</option>
             </select>
         </div>
@@ -101,9 +122,9 @@
             <label for="backgroundPattern">Background Pattern:</label>
             <select id="backgroundPattern">
                 <option value="none">None</option>
-                <option value="dots">Dots</option>
-                <option value="stripes">Stripes</option>
-                <option value="gradient">Gradient</option>
+                <option value="bg-dots">Dots</option>
+                <option value="bg-stripes">Stripes</option>
+                <option value="bg-gradient">Gradient</option>
             </select>
         </div>
         <div class="style-group">
@@ -117,7 +138,7 @@
         </div>
         <div class="style-group">
             <label for="customCSS">Custom CSS:</label>
-            <textarea id="customCSS" rows="4"></textarea>
+            <textarea id="customCSS" rows="3"></textarea>
         </div>
         <button id="applyStyles" class="btn btn-primary">Apply Styles</button>
     </div>
@@ -125,12 +146,11 @@
         <div class="mobile-frame">
             <div id="mobileCanvas"></div>
         </div>
-        <button id="closeMobilePreview" class="btn btn-secondary">Close Preview</button>
+        <button id="closeMobilePreview" class="btn btn-danger">Close Preview</button>
     </div>
     <div id="loadingSpinner" class="spinner-border text-primary d-none" role="status">
         <span class="visually-hidden">Loading...</span>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script type="module" src="index.js"></script>
+    <script src="index.js" type="module"></script>
 </body>
 </html>

@@ -10,6 +10,7 @@ let previewBtn;
 let loadingSpinner;
 let stylePanel;
 let mobilePreview;
+let templateSelection;
 let selectedElement = null;
 let draggedElement = null;
 let commandHistory = [];
@@ -28,6 +29,9 @@ document.addEventListener('DOMContentLoaded', () => {
     loadingSpinner = document.getElementById('loadingSpinner');
     stylePanel = document.getElementById('stylePanel');
     mobilePreview = document.getElementById('mobilePreview');
+    templateSelection = document.getElementById('templateSelection');
+
+    initializeTemplateSelection();
 
     draggables.forEach(draggable => {
         draggable.addEventListener('dragstart', dragStart);
@@ -56,6 +60,52 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('customCSS').addEventListener('input', applyCustomCSS);
     document.getElementById('typographyPreset').addEventListener('change', applyTypographyPreset);
 });
+
+function initializeTemplateSelection() {
+    const templateItems = document.querySelectorAll('.template-item');
+    templateItems.forEach(item => {
+        item.addEventListener('click', () => {
+            const templateName = item.dataset.template;
+            loadTemplate(templateName);
+            templateSelection.style.display = 'none';
+            canvas.style.display = 'block';
+        });
+    });
+}
+
+function loadTemplate(templateName) {
+    canvas.innerHTML = '';
+    switch (templateName) {
+        case 'business':
+            canvas.appendChild(createHeroSection());
+            canvas.appendChild(createFeatureGrid());
+            canvas.appendChild(createTestimonials());
+            canvas.appendChild(createNewsletterSignup());
+            canvas.appendChild(createFooterSection());
+            break;
+        case 'portfolio':
+            canvas.appendChild(createHeroSection());
+            canvas.appendChild(createTeamMembers());
+            canvas.appendChild(createFeatureGrid());
+            canvas.appendChild(createFooterSection());
+            break;
+        case 'blog':
+            canvas.appendChild(createHeroSection());
+            canvas.appendChild(createBlogPosts());
+            canvas.appendChild(createNewsletterSignup());
+            canvas.appendChild(createFooterSection());
+            break;
+        case 'ecommerce':
+            canvas.appendChild(createHeroSection());
+            canvas.appendChild(createProductGrid());
+            canvas.appendChild(createTestimonials());
+            canvas.appendChild(createFooterSection());
+            break;
+        default:
+            console.error('Unknown template:', templateName);
+    }
+    makeAllChildrenEditable(canvas);
+}
 
 function dragStart(e) {
     e.dataTransfer.setData('text/plain', e.target.dataset.type);
@@ -321,6 +371,54 @@ function createFooterSection() {
     return footer;
 }
 
+function createBlogPosts() {
+    const blogPosts = document.createElement('div');
+    blogPosts.className = 'blog-posts';
+    blogPosts.innerHTML = `
+        <div class="blog-post">
+            <img src="https://via.placeholder.com/300x200" alt="Blog Post 1">
+            <h3>Blog Post Title 1</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            <a href="#" class="btn btn-primary">Read More</a>
+        </div>
+        <div class="blog-post">
+            <img src="https://via.placeholder.com/300x200" alt="Blog Post 2">
+            <h3>Blog Post Title 2</h3>
+            <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            <a href="#" class="btn btn-primary">Read More</a>
+        </div>
+    `;
+    makeAllChildrenEditable(blogPosts);
+    return blogPosts;
+}
+
+function createProductGrid() {
+    const productGrid = document.createElement('div');
+    productGrid.className = 'product-grid';
+    productGrid.innerHTML = `
+        <div class="product">
+            <img src="https://via.placeholder.com/200x200" alt="Product 1">
+            <h3>Product Name 1</h3>
+            <p>$19.99</p>
+            <button class="btn btn-primary">Add to Cart</button>
+        </div>
+        <div class="product">
+            <img src="https://via.placeholder.com/200x200" alt="Product 2">
+            <h3>Product Name 2</h3>
+            <p>$24.99</p>
+            <button class="btn btn-primary">Add to Cart</button>
+        </div>
+        <div class="product">
+            <img src="https://via.placeholder.com/200x200" alt="Product 3">
+            <h3>Product Name 3</h3>
+            <p>$29.99</p>
+            <button class="btn btn-primary">Add to Cart</button>
+        </div>
+    `;
+    makeAllChildrenEditable(productGrid);
+    return productGrid;
+}
+
 function makeEditable(element) {
     element.contentEditable = true;
     element.addEventListener('focus', startEditing);
@@ -482,7 +580,7 @@ function updateStylePanel() {
         document.getElementById('borderWidth').value = parseInt(selectedElement.style.borderWidth) || 0;
         document.getElementById('borderWidthValue').textContent = `${document.getElementById('borderWidth').value}px`;
         document.getElementById('borderColor').value = rgb2hex(selectedElement.style.borderColor);
-        document.getElementById('borderRadius').value = parseInt(selectedElement.style.borderRadius) || 0;
+        document.getElementById('borderRadius').value= parseInt(selectedElement.style.borderRadius) || 0;
         document.getElementById('borderRadiusValue').textContent = `${document.getElementById('borderRadius').value}px`;
         document.getElementById('boxShadow').checked = selectedElement.style.boxShadow !== 'none' && selectedElement.style.boxShadow !== '';
         document.getElementById('animation').value = selectedElement.dataset.animation || 'none';
