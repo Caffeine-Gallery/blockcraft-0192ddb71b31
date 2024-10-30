@@ -14,6 +14,7 @@ body {
     position: relative;
     background-color: #fff;
     border: 1px solid #dee2e6;
+    overflow: hidden;
 }
 
 .draggable {
@@ -26,6 +27,7 @@ body {
 
 .draggable-element {
     cursor: move;
+    user-select: none;
 }
 
 .controls {

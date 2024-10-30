@@ -5,6 +5,7 @@ let draggables;
 let saveBtn;
 let loadBtn;
 let loadingSpinner;
+let draggedElement = null;
 
 document.addEventListener('DOMContentLoaded', () => {
     canvas = document.getElementById('canvas');
@@ -19,6 +20,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     canvas.addEventListener('dragover', dragOver);
     canvas.addEventListener('drop', drop);
+    canvas.addEventListener('mousedown', startDragging);
+    canvas.addEventListener('mousemove', drag);
+    canvas.addEventListener('mouseup', stopDragging);
 
     saveBtn.addEventListener('click', saveLayout);
     loadBtn.addEventListener('click', loadLayout);
@@ -34,13 +38,26 @@ function dragOver(e) {
 
 function drop(e) {
     e.preventDefault();
-    const type = e.dataTransfer.getData('text');
-    const element = createElement(type);
-    if (element) {
-        element.style.position = 'absolute';
-        element.style.left = `${e.clientX - canvas.offsetLeft}px`;
-        element.style.top = `${e.clientY - canvas.offsetTop}px`;
-        canvas.appendChild(element);
+    const data = e.dataTransfer.getData('text');
+    
+    if (data === 'move') {
+        // Moving an existing element
+        if (draggedElement) {
+            const offsetX = parseInt(draggedElement.dataset.offsetX);
+            const offsetY = parseInt(draggedElement.dataset.offsetY);
+            draggedElement.style.left = `${e.clientX - canvas.offsetLeft - offsetX}px`;
+            draggedElement.style.top = `${e.clientY - canvas.offsetTop - offsetY}px`;
+            draggedElement = null;
+        }
+    } else {
+        // Creating a new element
+        const element = createElement(data);
+        if (element) {
+            element.style.position = 'absolute';
+            element.style.left = `${e.clientX - canvas.offsetLeft}px`;
+            element.style.top = `${e.clientY - canvas.offsetTop}px`;
+            canvas.appendChild(element);
+        }
     }
 }
 
@@ -75,18 +92,44 @@ function createElement(type) {
 }
 
 function dragElement(e) {
-    if (e.target) {
-        const rect = e.target.getBoundingClientRect();
-        const offsetX = e.clientX - rect.left;
-        const offsetY = e.clientY - rect.top;
-        e.dataTransfer.setData('text/plain', JSON.stringify({ offsetX, offsetY }));
-    }
+    e.dataTransfer.setData('text/plain', 'move');
+    const rect = e.target.getBoundingClientRect();
+    const offsetX = e.clientX - rect.left;
+    const offsetY = e.clientY - rect.top;
+    e.target.dataset.offsetX = offsetX;
+    e.target.dataset.offsetY = offsetY;
 }
 
 function editText(e) {
     const text = prompt('Enter new text:', e.target.textContent);
     if (text !== null) {
         e.target.textContent = text;
+    }
+}
+
+function startDragging(e) {
+    if (e.target.classList.contains('draggable-element')) {
+        draggedElement = e.target;
+        const rect = draggedElement.getBoundingClientRect();
+        draggedElement.dataset.offsetX = e.clientX - rect.left;
+        draggedElement.dataset.offsetY = e.clientY - rect.top;
+        draggedElement.style.zIndex = 1000;
+    }
+}
+
+function drag(e) {
+    if (draggedElement) {
+        const offsetX = parseInt(draggedElement.dataset.offsetX);
+        const offsetY = parseInt(draggedElement.dataset.offsetY);
+        draggedElement.style.left = `${e.clientX - canvas.offsetLeft - offsetX}px`;
+        draggedElement.style.top = `${e.clientY - canvas.offsetTop - offsetY}px`;
+    }
+}
+
+function stopDragging() {
+    if (draggedElement) {
+        draggedElement.style.zIndex = '';
+        draggedElement = null;
     }
 }
 
