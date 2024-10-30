@@ -6,8 +6,10 @@ let saveBtn;
 let loadBtn;
 let undoBtn;
 let redoBtn;
+let previewBtn;
 let loadingSpinner;
 let stylePanel;
+let mobilePreview;
 let selectedElement = null;
 let draggedElement = null;
 let commandHistory = [];
@@ -20,8 +22,10 @@ document.addEventListener('DOMContentLoaded', () => {
     loadBtn = document.getElementById('loadBtn');
     undoBtn = document.getElementById('undoBtn');
     redoBtn = document.getElementById('redoBtn');
+    previewBtn = document.getElementById('previewBtn');
     loadingSpinner = document.getElementById('loadingSpinner');
     stylePanel = document.getElementById('stylePanel');
+    mobilePreview = document.getElementById('mobilePreview');
 
     draggables.forEach(draggable => {
         draggable.addEventListener('dragstart', dragStart);
@@ -38,13 +42,17 @@ document.addEventListener('DOMContentLoaded', () => {
     loadBtn.addEventListener('click', loadLayout);
     undoBtn.addEventListener('click', undo);
     redoBtn.addEventListener('click', redo);
+    previewBtn.addEventListener('click', showMobilePreview);
 
     document.getElementById('applyStyles').addEventListener('click', applyStyles);
+    document.getElementById('closeMobilePreview').addEventListener('click', closeMobilePreview);
 
     // Add event listeners for style inputs
     document.getElementById('fontSize').addEventListener('input', updateFontSizeValue);
     document.getElementById('borderWidth').addEventListener('input', updateBorderWidthValue);
     document.getElementById('borderRadius').addEventListener('input', updateBorderRadiusValue);
+    document.getElementById('customCSS').addEventListener('input', applyCustomCSS);
+    document.getElementById('typographyPreset').addEventListener('change', applyTypographyPreset);
 });
 
 function dragStart(e) {
@@ -126,6 +134,27 @@ function createElement(type) {
             element.type = 'text';
             element.placeholder = 'Enter text here';
             break;
+        case 'hero':
+            element = createHeroSection();
+            break;
+        case 'features':
+            element = createFeatureGrid();
+            break;
+        case 'testimonials':
+            element = createTestimonials();
+            break;
+        case 'pricing':
+            element = createPricingTable();
+            break;
+        case 'team':
+            element = createTeamMembers();
+            break;
+        case 'newsletter':
+            element = createNewsletterSignup();
+            break;
+        case 'footer':
+            element = createFooterSection();
+            break;
         default:
             console.error('Unknown element type:', type);
             return null;
@@ -138,6 +167,147 @@ function createElement(type) {
         addDeleteButton(element);
     }
     return element;
+}
+
+function createHeroSection() {
+    const hero = document.createElement('div');
+    hero.className = 'hero-section';
+    hero.innerHTML = `
+        <h1>Welcome to Our Website</h1>
+        <p>Discover amazing features and services</p>
+        <button class="btn btn-primary">Get Started</button>
+    `;
+    return hero;
+}
+
+function createFeatureGrid() {
+    const features = document.createElement('div');
+    features.className = 'feature-grid';
+    features.innerHTML = `
+        <div class="feature">
+            <i class="fas fa-rocket"></i>
+            <h3>Fast</h3>
+            <p>Lightning quick performance</p>
+        </div>
+        <div class="feature">
+            <i class="fas fa-lock"></i>
+            <h3>Secure</h3>
+            <p>Your data is safe with us</p>
+        </div>
+        <div class="feature">
+            <i class="fas fa-cogs"></i>
+            <h3>Customizable</h3>
+            <p>Tailor it to your needs</p>
+        </div>
+    `;
+    return features;
+}
+
+function createTestimonials() {
+    const testimonials = document.createElement('div');
+    testimonials.className = 'testimonials';
+    testimonials.innerHTML = `
+        <div class="testimonial">
+            <p>"This product changed my life!"</p>
+            <cite>- John Doe</cite>
+        </div>
+        <div class="testimonial">
+            <p>"I can't imagine working without it."</p>
+            <cite>- Jane Smith</cite>
+        </div>
+    `;
+    return testimonials;
+}
+
+function createPricingTable() {
+    const pricing = document.createElement('div');
+    pricing.className = 'pricing-table';
+    pricing.innerHTML = `
+        <div class="price-plan">
+            <h3>Basic</h3>
+            <p class="price">$9.99/mo</p>
+            <ul>
+                <li>Feature 1</li>
+                <li>Feature 2</li>
+                <li>Feature 3</li>
+            </ul>
+            <button class="btn btn-primary">Choose Plan</button>
+        </div>
+        <div class="price-plan">
+            <h3>Pro</h3>
+            <p class="price">$19.99/mo</p>
+            <ul>
+                <li>Feature 1</li>
+                <li>Feature 2</li>
+                <li>Feature 3</li>
+                <li>Feature 4</li>
+            </ul>
+            <button class="btn btn-primary">Choose Plan</button>
+        </div>
+    `;
+    return pricing;
+}
+
+function createTeamMembers() {
+    const team = document.createElement('div');
+    team.className = 'team-members';
+    team.innerHTML = `
+        <div class="team-member">
+            <img src="https://via.placeholder.com/150" alt="Team Member 1">
+            <h3>John Doe</h3>
+            <p>CEO</p>
+        </div>
+        <div class="team-member">
+            <img src="https://via.placeholder.com/150" alt="Team Member 2">
+            <h3>Jane Smith</h3>
+            <p>CTO</p>
+        </div>
+    `;
+    return team;
+}
+
+function createNewsletterSignup() {
+    const newsletter = document.createElement('div');
+    newsletter.className = 'newsletter-signup';
+    newsletter.innerHTML = `
+        <h3>Subscribe to Our Newsletter</h3>
+        <p>Stay updated with our latest news and offers</p>
+        <form>
+            <input type="email" placeholder="Enter your email">
+            <button type="submit" class="btn btn-primary">Subscribe</button>
+        </form>
+    `;
+    return newsletter;
+}
+
+function createFooterSection() {
+    const footer = document.createElement('footer');
+    footer.className = 'footer-section';
+    footer.innerHTML = `
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>About Us</h4>
+                <p>We are a company dedicated to providing the best services.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Contact</h4>
+                <p>Email: info@example.com</p>
+                <p>Phone: (123) 456-7890</p>
+            </div>
+            <div class="footer-section">
+                <h4>Follow Us</h4>
+                <div class="social-icons">
+                    <i class="fab fa-facebook"></i>
+                    <i class="fab fa-twitter"></i>
+                    <i class="fab fa-instagram"></i>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2023 Your Company. All rights reserved.</p>
+        </div>
+    `;
+    return footer;
 }
 
 function addResizeHandles(element) {
@@ -281,6 +451,9 @@ function updateStylePanel() {
         document.getElementById('borderRadius').value = parseInt(selectedElement.style.borderRadius) || 0;
         document.getElementById('borderRadiusValue').textContent = `${document.getElementById('borderRadius').value}px`;
         document.getElementById('boxShadow').checked = selectedElement.style.boxShadow !== 'none' && selectedElement.style.boxShadow !== '';
+        document.getElementById('animation').value = selectedElement.dataset.animation || 'none';
+        document.getElementById('backgroundPattern').value = selectedElement.dataset.backgroundPattern || 'none';
+        document.getElementById('customCSS').value = selectedElement.dataset.customCSS || '';
     }
 }
 
@@ -294,6 +467,8 @@ function applyStyles() {
         const borderColor = document.getElementById('borderColor').value;
         const borderRadius = document.getElementById('borderRadius').value;
         const boxShadow = document.getElementById('boxShadow').checked ? '0 0 10px rgba(0,0,0,0.5)' : 'none';
+        const animation = document.getElementById('animation').value;
+        const backgroundPattern = document.getElementById('backgroundPattern').value;
 
         executeCommand(new StyleCommand(selectedElement, {
             color: fontColor,
@@ -303,8 +478,57 @@ function applyStyles() {
             borderWidth: `${borderWidth}px`,
             borderColor,
             borderRadius: `${borderRadius}px`,
-            boxShadow
+            boxShadow,
+            animation,
+            backgroundPattern
         }));
+    }
+}
+
+function applyCustomCSS() {
+    if (selectedElement) {
+        const customCSS = document.getElementById('customCSS').value;
+        selectedElement.style.cssText += customCSS;
+        selectedElement.dataset.customCSS = customCSS;
+    }
+}
+
+function applyTypographyPreset() {
+    if (selectedElement) {
+        const preset = document.getElementById('typographyPreset').value;
+        let styles = {};
+
+        switch (preset) {
+            case 'modern':
+                styles = {
+                    fontFamily: 'Arial, sans-serif',
+                    fontSize: '16px',
+                    lineHeight: '1.6'
+                };
+                break;
+            case 'classic':
+                styles = {
+                    fontFamily: 'Georgia, serif',
+                    fontSize: '18px',
+                    lineHeight: '1.8'
+                };
+                break;
+            case 'playful':
+                styles = {
+                    fontFamily: 'Comic Sans MS, cursive',
+                    fontSize: '14px',
+                    lineHeight: '1.4'
+                };
+                break;
+            default:
+                styles = {
+                    fontFamily: 'inherit',
+                    fontSize: 'inherit',
+                    lineHeight: 'inherit'
+                };
+        }
+
+        executeCommand(new StyleCommand(selectedElement, styles));
     }
 }
 
@@ -329,6 +553,16 @@ function rgb2hex(rgb) {
         ("0" + parseInt(rgb[3], 10).toString(16)).slice(-2) : '';
 }
 
+function showMobilePreview() {
+    const mobileCanvas = document.getElementById('mobileCanvas');
+    mobileCanvas.innerHTML = canvas.innerHTML;
+    mobilePreview.style.display = 'flex';
+}
+
+function closeMobilePreview() {
+    mobilePreview.style.display = 'none';
+}
+
 async function saveLayout() {
     showLoading();
     const layout = Array.from(canvas.children).map(element => ({
@@ -346,7 +580,10 @@ async function saveLayout() {
             borderWidth: element.style.borderWidth,
             borderColor: element.style.borderColor,
             borderRadius: element.style.borderRadius,
-            boxShadow: element.style.boxShadow
+            boxShadow: element.style.boxShadow,
+            animation: element.dataset.animation,
+            backgroundPattern: element.dataset.backgroundPattern,
+            customCSS: element.dataset.customCSS
         }
     }));
 
@@ -382,6 +619,9 @@ async function loadLayout() {
                     element.textContent = item.content;
                 }
                 Object.assign(element.style, item.styles);
+                element.dataset.animation = item.styles.animation;
+                element.dataset.backgroundPattern = item.styles.backgroundPattern;
+                element.dataset.customCSS = item.styles.customCSS;
                 canvas.appendChild(element);
             }
         });
@@ -495,10 +735,22 @@ class StyleCommand extends Command {
 
     execute() {
         Object.assign(this.element.style, this.newStyles);
+        if (this.newStyles.animation) {
+            this.element.dataset.animation = this.newStyles.animation;
+        }
+        if (this.newStyles.backgroundPattern) {
+            this.element.dataset.backgroundPattern = this.newStyles.backgroundPattern;
+        }
     }
 
     undo() {
         Object.assign(this.element.style, this.oldStyles);
+        if (this.oldStyles.animation) {
+            this.element.dataset.animation = this.oldStyles.animation;
+        }
+        if (this.oldStyles.backgroundPattern) {
+            this.element.dataset.backgroundPattern = this.oldStyles.backgroundPattern;
+        }
     }
 }
 

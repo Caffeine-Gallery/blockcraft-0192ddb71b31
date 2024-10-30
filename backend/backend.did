@@ -10,13 +10,16 @@ type LayoutItem =
    left: text;
    styles:
     record {
+      animation: text;
       backgroundColor: text;
+      backgroundPattern: text;
       borderColor: text;
       borderRadius: text;
       borderStyle: text;
       borderWidth: text;
       boxShadow: text;
       color: text;
+      customCSS: text;
       fontSize: text;
     };
    top: text;

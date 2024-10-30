@@ -23,6 +23,16 @@
                     <div class="draggable" draggable="true" data-type="list"><i class="fas fa-list"></i> List</div>
                     <div class="draggable" draggable="true" data-type="input"><i class="fas fa-input-text"></i> Input</div>
                 </div>
+                <h3 class="mt-4">Templates</h3>
+                <div class="template-list">
+                    <div class="draggable" draggable="true" data-type="hero"><i class="fas fa-jedi"></i> Hero Section</div>
+                    <div class="draggable" draggable="true" data-type="features"><i class="fas fa-th-large"></i> Feature Grid</div>
+                    <div class="draggable" draggable="true" data-type="testimonials"><i class="fas fa-quote-right"></i> Testimonials</div>
+                    <div class="draggable" draggable="true" data-type="pricing"><i class="fas fa-dollar-sign"></i> Pricing Table</div>
+                    <div class="draggable" draggable="true" data-type="team"><i class="fas fa-users"></i> Team Members</div>
+                    <div class="draggable" draggable="true" data-type="newsletter"><i class="fas fa-envelope"></i> Newsletter Signup</div>
+                    <div class="draggable" draggable="true" data-type="footer"><i class="fas fa-shoe-prints"></i> Footer Section</div>
+                </div>
             </div>
             <div class="col-9">
                 <div id="canvas" class="canvas"></div>
@@ -34,6 +44,7 @@
         <button id="redoBtn" class="btn btn-secondary"><i class="fas fa-redo"></i> Redo</button>
         <button id="saveBtn" class="btn btn-primary"><i class="fas fa-save"></i> Save Layout</button>
         <button id="loadBtn" class="btn btn-secondary"><i class="fas fa-folder-open"></i> Load Layout</button>
+        <button id="previewBtn" class="btn btn-info"><i class="fas fa-mobile-alt"></i> Mobile Preview</button>
     </div>
     <div id="stylePanel" class="style-panel">
         <h4>Style Customization</h4>
@@ -77,7 +88,44 @@
             <label for="boxShadow">Box Shadow:</label>
             <input type="checkbox" id="boxShadow">
         </div>
+        <div class="style-group">
+            <label for="animation">Animation:</label>
+            <select id="animation">
+                <option value="none">None</option>
+                <option value="fade">Fade</option>
+                <option value="slide">Slide</option>
+                <option value="bounce">Bounce</option>
+            </select>
+        </div>
+        <div class="style-group">
+            <label for="backgroundPattern">Background Pattern:</label>
+            <select id="backgroundPattern">
+                <option value="none">None</option>
+                <option value="dots">Dots</option>
+                <option value="stripes">Stripes</option>
+                <option value="gradient">Gradient</option>
+            </select>
+        </div>
+        <div class="style-group">
+            <label for="typographyPreset">Typography Preset:</label>
+            <select id="typographyPreset">
+                <option value="default">Default</option>
+                <option value="modern">Modern</option>
+                <option value="classic">Classic</option>
+                <option value="playful">Playful</option>
+            </select>
+        </div>
+        <div class="style-group">
+            <label for="customCSS">Custom CSS:</label>
+            <textarea id="customCSS" rows="4"></textarea>
+        </div>
         <button id="applyStyles" class="btn btn-primary">Apply Styles</button>
+    </div>
+    <div id="mobilePreview" class="mobile-preview">
+        <div class="mobile-frame">
+            <div id="mobileCanvas"></div>
+        </div>
+        <button id="closeMobilePreview" class="btn btn-secondary">Close Preview</button>
     </div>
     <div id="loadingSpinner" class="spinner-border text-primary d-none" role="status">
         <span class="visually-hidden">Loading...</span>

@@ -22,6 +22,9 @@ actor {
             borderColor: Text;
             borderRadius: Text;
             boxShadow: Text;
+            animation: Text;
+            backgroundPattern: Text;
+            customCSS: Text;
         };
     };
 
@@ -33,7 +36,7 @@ actor {
             savedLayout := layout;
             #ok("Layout saved successfully")
         } catch (e) {
-            #err("Error saving layout: "# Error.message(e))
+            #err("Error saving layout: " # Error.message(e))
         }
     };
 
