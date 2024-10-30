@@ -4,9 +4,16 @@ import type { IDL } from '@dfinity/candid';
 
 export interface LayoutItem {
   'top' : string,
+  'height' : string,
+  'styles' : {
+    'backgroundColor' : string,
+    'color' : string,
+    'fontSize' : string,
+  },
   'content' : string,
   'left' : string,
   'type' : string,
+  'width' : string,
 }
 export type Result = { 'ok' : string } |
   { 'err' : string };

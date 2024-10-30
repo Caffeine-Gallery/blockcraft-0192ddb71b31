@@ -1,9 +1,16 @@
 export const idlFactory = ({ IDL }) => {
   const LayoutItem = IDL.Record({
     'top' : IDL.Text,
+    'height' : IDL.Text,
+    'styles' : IDL.Record({
+      'backgroundColor' : IDL.Text,
+      'color' : IDL.Text,
+      'fontSize' : IDL.Text,
+    }),
     'content' : IDL.Text,
     'left' : IDL.Text,
     'type' : IDL.Text,
+    'width' : IDL.Text,
   });
   const Result = IDL.Variant({ 'ok' : IDL.Text, 'err' : IDL.Text });
   return IDL.Service({

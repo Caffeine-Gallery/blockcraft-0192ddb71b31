@@ -15,6 +15,8 @@
                 <div class="draggable" draggable="true" data-type="text">Text</div>
                 <div class="draggable" draggable="true" data-type="image">Image</div>
                 <div class="draggable" draggable="true" data-type="button">Button</div>
+                <div class="draggable" draggable="true" data-type="divider">Divider</div>
+                <div class="draggable" draggable="true" data-type="heading">Heading</div>
             </div>
             <div class="col-9">
                 <div id="canvas" class="canvas"></div>
@@ -22,8 +24,20 @@
         </div>
     </div>
     <div class="controls">
+        <button id="undoBtn" class="btn btn-secondary">Undo</button>
+        <button id="redoBtn" class="btn btn-secondary">Redo</button>
         <button id="saveBtn" class="btn btn-primary">Save Layout</button>
         <button id="loadBtn" class="btn btn-secondary">Load Layout</button>
+    </div>
+    <div id="stylePanel" class="style-panel">
+        <h4>Style Customization</h4>
+        <label for="fontColor">Font Color:</label>
+        <input type="color" id="fontColor">
+        <label for="backgroundColor">Background Color:</label>
+        <input type="color" id="backgroundColor">
+        <label for="fontSize">Font Size:</label>
+        <input type="range" id="fontSize" min="8" max="72" value="16">
+        <button id="applyStyles" class="btn btn-primary">Apply Styles</button>
     </div>
     <div id="loadingSpinner" class="spinner-border text-primary d-none" role="status">
         <span class="visually-hidden">Loading...</span>

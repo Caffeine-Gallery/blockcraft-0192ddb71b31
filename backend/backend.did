@@ -6,9 +6,16 @@ type Result =
 type LayoutItem = 
  record {
    content: text;
+   height: text;
    left: text;
+   styles: record {
+             backgroundColor: text;
+             color: text;
+             fontSize: text;
+           };
    top: text;
    "type": text;
+   width: text;
  };
 service : {
   loadLayout: () -> (vec LayoutItem) query;

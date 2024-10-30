@@ -11,6 +11,13 @@ actor {
         content: Text;
         left: Text;
         top: Text;
+        width: Text;
+        height: Text;
+        styles: {
+            color: Text;
+            backgroundColor: Text;
+            fontSize: Text;
+        };
     };
 
     stable var savedLayout: [LayoutItem] = [];
