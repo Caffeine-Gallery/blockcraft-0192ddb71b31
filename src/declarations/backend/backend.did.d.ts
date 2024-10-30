@@ -7,8 +7,13 @@ export interface LayoutItem {
   'height' : string,
   'styles' : {
     'backgroundColor' : string,
+    'borderRadius' : string,
+    'borderStyle' : string,
     'color' : string,
+    'borderWidth' : string,
+    'boxShadow' : string,
     'fontSize' : string,
+    'borderColor' : string,
   },
   'content' : string,
   'left' : string,

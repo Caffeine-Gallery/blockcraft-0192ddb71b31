@@ -40,6 +40,11 @@ document.addEventListener('DOMContentLoaded', () => {
     redoBtn.addEventListener('click', redo);
 
     document.getElementById('applyStyles').addEventListener('click', applyStyles);
+
+    // Add event listeners for style inputs
+    document.getElementById('fontSize').addEventListener('input', updateFontSizeValue);
+    document.getElementById('borderWidth').addEventListener('input', updateBorderWidthValue);
+    document.getElementById('borderRadius').addEventListener('input', updateBorderRadiusValue);
 });
 
 function dragStart(e) {
@@ -101,6 +106,26 @@ function createElement(type) {
             element.textContent = 'Heading';
             element.addEventListener('dblclick', editText);
             break;
+        case 'container':
+            element = document.createElement('div');
+            element.className = 'container-element';
+            element.style.width = '200px';
+            element.style.height = '200px';
+            element.style.border = '1px dashed #ccc';
+            break;
+        case 'list':
+            element = document.createElement('ul');
+            for (let i = 1; i <= 3; i++) {
+                const li = document.createElement('li');
+                li.textContent = `List item ${i}`;
+                element.appendChild(li);
+            }
+            break;
+        case 'input':
+            element = document.createElement('input');
+            element.type = 'text';
+            element.placeholder = 'Enter text here';
+            break;
         default:
             console.error('Unknown element type:', type);
             return null;
@@ -127,7 +152,7 @@ function addResizeHandles(element) {
 
 function addDeleteButton(element) {
     const deleteBtn = document.createElement('button');
-    deleteBtn.textContent = 'X';
+    deleteBtn.innerHTML = '<i class="fas fa-trash"></i>';
     deleteBtn.className = 'delete-btn';
     deleteBtn.addEventListener('click', (e) => {
         e.stopPropagation();
@@ -225,6 +250,7 @@ function selectElement(e) {
         selectedElement = e.target;
         selectedElement.classList.add('selected');
         showStylePanel();
+        updateStylePanel();
     } else {
         if (selectedElement) {
             selectedElement.classList.remove('selected');
@@ -242,13 +268,65 @@ function hideStylePanel() {
     stylePanel.style.display = 'none';
 }
 
+function updateStylePanel() {
+    if (selectedElement) {
+        document.getElementById('fontColor').value = rgb2hex(selectedElement.style.color);
+        document.getElementById('backgroundColor').value = rgb2hex(selectedElement.style.backgroundColor);
+        document.getElementById('fontSize').value = parseInt(selectedElement.style.fontSize) || 16;
+        document.getElementById('fontSizeValue').textContent = `${document.getElementById('fontSize').value}px`;
+        document.getElementById('borderStyle').value = selectedElement.style.borderStyle || 'none';
+        document.getElementById('borderWidth').value = parseInt(selectedElement.style.borderWidth) || 0;
+        document.getElementById('borderWidthValue').textContent = `${document.getElementById('borderWidth').value}px`;
+        document.getElementById('borderColor').value = rgb2hex(selectedElement.style.borderColor);
+        document.getElementById('borderRadius').value = parseInt(selectedElement.style.borderRadius) || 0;
+        document.getElementById('borderRadiusValue').textContent = `${document.getElementById('borderRadius').value}px`;
+        document.getElementById('boxShadow').checked = selectedElement.style.boxShadow !== 'none' && selectedElement.style.boxShadow !== '';
+    }
+}
+
 function applyStyles() {
     if (selectedElement) {
         const fontColor = document.getElementById('fontColor').value;
         const backgroundColor = document.getElementById('backgroundColor').value;
         const fontSize = document.getElementById('fontSize').value;
-        executeCommand(new StyleCommand(selectedElement, { color: fontColor, backgroundColor, fontSize: `${fontSize}px` }));
+        const borderStyle = document.getElementById('borderStyle').value;
+        const borderWidth = document.getElementById('borderWidth').value;
+        const borderColor = document.getElementById('borderColor').value;
+        const borderRadius = document.getElementById('borderRadius').value;
+        const boxShadow = document.getElementById('boxShadow').checked ? '0 0 10px rgba(0,0,0,0.5)' : 'none';
+
+        executeCommand(new StyleCommand(selectedElement, {
+            color: fontColor,
+            backgroundColor,
+            fontSize: `${fontSize}px`,
+            borderStyle,
+            borderWidth: `${borderWidth}px`,
+            borderColor,
+            borderRadius: `${borderRadius}px`,
+            boxShadow
+        }));
     }
+}
+
+function updateFontSizeValue() {
+    document.getElementById('fontSizeValue').textContent = `${document.getElementById('fontSize').value}px`;
+}
+
+function updateBorderWidthValue() {
+    document.getElementById('borderWidthValue').textContent = `${document.getElementById('borderWidth').value}px`;
+}
+
+function updateBorderRadiusValue() {
+    document.getElementById('borderRadiusValue').textContent = `${document.getElementById('borderRadius').value}px`;
+}
+
+function rgb2hex(rgb) {
+    if (rgb.startsWith('#')) return rgb;
+    rgb = rgb.match(/^rgba?[\s+]?\([\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?/i);
+    return (rgb && rgb.length === 4) ? "#" +
+        ("0" + parseInt(rgb[1], 10).toString(16)).slice(-2) +
+        ("0" + parseInt(rgb[2], 10).toString(16)).slice(-2) +
+        ("0" + parseInt(rgb[3], 10).toString(16)).slice(-2) : '';
 }
 
 async function saveLayout() {
@@ -263,7 +341,12 @@ async function saveLayout() {
         styles: {
             color: element.style.color,
             backgroundColor: element.style.backgroundColor,
-            fontSize: element.style.fontSize
+            fontSize: element.style.fontSize,
+            borderStyle: element.style.borderStyle,
+            borderWidth: element.style.borderWidth,
+            borderColor: element.style.borderColor,
+            borderRadius: element.style.borderRadius,
+            boxShadow: element.style.boxShadow
         }
     }));
 
@@ -404,11 +487,10 @@ class StyleCommand extends Command {
         super();
         this.element = element;
         this.newStyles = newStyles;
-        this.oldStyles = {
-            color: element.style.color,
-            backgroundColor: element.style.backgroundColor,
-            fontSize: element.style.fontSize
-        };
+        this.oldStyles = {};
+        for (let prop in newStyles) {
+            this.oldStyles[prop] = element.style[prop];
+        }
     }
 
     execute() {

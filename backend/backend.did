@@ -8,11 +8,17 @@ type LayoutItem =
    content: text;
    height: text;
    left: text;
-   styles: record {
-             backgroundColor: text;
-             color: text;
-             fontSize: text;
-           };
+   styles:
+    record {
+      backgroundColor: text;
+      borderColor: text;
+      borderRadius: text;
+      borderStyle: text;
+      borderWidth: text;
+      boxShadow: text;
+      color: text;
+      fontSize: text;
+    };
    top: text;
    "type": text;
    width: text;

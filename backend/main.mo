@@ -17,6 +17,11 @@ actor {
             color: Text;
             backgroundColor: Text;
             fontSize: Text;
+            borderStyle: Text;
+            borderWidth: Text;
+            borderColor: Text;
+            borderRadius: Text;
+            boxShadow: Text;
         };
     };
 
@@ -28,7 +33,7 @@ actor {
             savedLayout := layout;
             #ok("Layout saved successfully")
         } catch (e) {
-            #err("Error saving layout: " # Error.message(e))
+            #err("Error saving layout: "# Error.message(e))
         }
     };
 

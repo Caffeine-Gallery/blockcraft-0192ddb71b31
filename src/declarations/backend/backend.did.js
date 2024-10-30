@@ -4,8 +4,13 @@ export const idlFactory = ({ IDL }) => {
     'height' : IDL.Text,
     'styles' : IDL.Record({
       'backgroundColor' : IDL.Text,
+      'borderRadius' : IDL.Text,
+      'borderStyle' : IDL.Text,
       'color' : IDL.Text,
+      'borderWidth' : IDL.Text,
+      'boxShadow' : IDL.Text,
       'fontSize' : IDL.Text,
+      'borderColor' : IDL.Text,
     }),
     'content' : IDL.Text,
     'left' : IDL.Text,
